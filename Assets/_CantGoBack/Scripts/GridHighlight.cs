@@ -22,10 +22,11 @@ public class GridHighlight : MonoBehaviour
     public GameObject bottomLeftTile;
     public GameObject bottomRightTile;
 
-    public string currentBuildingToPlace = "Farm";
-
+    string currentBuilding = "";
+    public GameManager gameManager;
     void Start()
     {
+        gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
         Renderer renderer = this.GetComponent<Renderer>();
         GetComponent<Renderer>().material.SetColor("_Color", Color.red);
     }
@@ -41,9 +42,20 @@ public class GridHighlight : MonoBehaviour
         if (bottomLeftTile == null) bottomLeftTile = bottomLeftSelector.GetComponent<SelectorCube>().tile;
         if (bottomRightTile == null) bottomRightTile = bottomRightSelector.GetComponent<SelectorCube>().tile;
     }
+    void Update()
+    {
+        if (currentBuilding != gameManager.currentBuilding)
+        {
+            currentBuilding = gameManager.currentBuilding;
+            MillPlacementExit();
+            FarmPlacementExit();
+        }
+
+
+    }
     void OnMouseOver()
     {
-        switch (currentBuildingToPlace)
+        switch (currentBuilding)
         {
             case "Mill":
                 MillPlacementEnter();
@@ -52,11 +64,10 @@ public class GridHighlight : MonoBehaviour
                 FarmPlacementEnter();
                 break;
         }
-
     }
     void OnMouseExit()
     {
-        switch (currentBuildingToPlace)
+        switch (currentBuilding)
         {
             case "Mill":
                 MillPlacementExit();
@@ -65,7 +76,6 @@ public class GridHighlight : MonoBehaviour
                 FarmPlacementExit();
                 break;
         }
-
     }
     void MillPlacementEnter()
     {
@@ -102,5 +112,4 @@ public class GridHighlight : MonoBehaviour
         if (topLeftTile != null) topLeftTile.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
         if (bottomLeftTile != null) bottomLeftTile.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
     }
-
 }
