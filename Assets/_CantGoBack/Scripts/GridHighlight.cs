@@ -24,6 +24,7 @@ public class GridHighlight : MonoBehaviour
     public Material groundMat;
     public Material selectedGroundMat;
     public Material builtOn;
+
     public bool used = false;
 
 

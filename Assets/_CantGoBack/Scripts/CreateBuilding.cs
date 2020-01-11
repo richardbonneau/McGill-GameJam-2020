@@ -7,7 +7,9 @@ public class CreateBuilding : MonoBehaviour
     GameManager gameManager;
     public GameObject farmModel;
     public GameObject millModel;
+    public GameObject synergyZone;
     GameObject previewModel;
+    GameObject previewSynergyZone;
     string currentBuilding;
     // Start is called before the first frame update
     public List<GameObject> selectedTiles = new List<GameObject>();
@@ -20,22 +22,19 @@ public class CreateBuilding : MonoBehaviour
 
     public void PreviewFarm(Vector3 position, List<GameObject> tiles)
     {
-
         selectedTiles = tiles;
         currentBuilding = "Farm";
         previewModel = Instantiate(farmModel, new Vector3(position.x - 0.5f, position.y + 0.11f, position.z + 0.38f), Quaternion.identity);
         previewModel.tag = "Preview";
-
-
     }
     public void PreviewMill(Vector3 position, List<GameObject> tiles)
     {
-
         selectedTiles = tiles;
         currentBuilding = "Mill";
         previewModel = Instantiate(millModel, new Vector3(position.x + 0.313f, position.y + 0.11f, position.z - 0.25f), Quaternion.identity);
+        // previewSynergyZone = Instantiate(synergyZone, previewModel.transform.position, Quaternion.identity);
         previewModel.tag = "Preview";
-
+        // previewSynergyZone.tag = "Preview";
     }
     void PlaceBuilding(GameObject model, int points)
     {
@@ -43,7 +42,6 @@ public class CreateBuilding : MonoBehaviour
         foreach (GameObject tile in selectedTiles) tile.GetComponent<GridHighlight>().used = true;
         gameManager.buildingPlaced = true;
         gameManager.score += points;
-
     }
     void Update()
     {
@@ -51,9 +49,6 @@ public class CreateBuilding : MonoBehaviour
         {
             if (currentBuilding == "Farm") PlaceBuilding(farmModel, 1000);
             else if (currentBuilding == "Mill") PlaceBuilding(millModel, 1500);
-
         }
-
     }
-
 }
