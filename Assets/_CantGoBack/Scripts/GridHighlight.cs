@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 public class GridHighlight : MonoBehaviour
 {
-
     public GameObject leftSelector;
     public GameObject rightSelector;
     public GameObject topSelector;
@@ -21,14 +21,23 @@ public class GridHighlight : MonoBehaviour
     public GameObject topRightTile;
     public GameObject bottomLeftTile;
     public GameObject bottomRightTile;
+    public Material groundMat;
+    public Material selectedGroundMat;
+
 
     string currentBuilding = "";
-    public GameManager gameManager;
+    GameObject gameManagerObject;
+    GameManager gameManager;
+    CreateBuilding createBuilding;
+
     void Start()
     {
-        gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
+        gameManagerObject = GameObject.FindWithTag("GameManager");
+        gameManager = gameManagerObject.GetComponent<GameManager>();
+        createBuilding = gameManagerObject.GetComponent<CreateBuilding>();
+
         Renderer renderer = this.GetComponent<Renderer>();
-        GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+        GetComponent<Renderer>().material = groundMat;
     }
     void LateUpdate()
     {
@@ -50,8 +59,6 @@ public class GridHighlight : MonoBehaviour
             MillPlacementExit();
             FarmPlacementExit();
         }
-
-
     }
     void OnMouseOver()
     {
@@ -79,37 +86,47 @@ public class GridHighlight : MonoBehaviour
     }
     void MillPlacementEnter()
     {
-        GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
-        if (leftTile != null) leftTile.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
-        if (rightTile != null) rightTile.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
-        if (topTile != null) topTile.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
-        if (bottomTile != null) bottomTile.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
+        createBuilding.PreviewMill(this.transform.position);
+        GetComponent<Renderer>().material = selectedGroundMat;
+        if (leftTile != null) leftTile.GetComponent<Renderer>().material = selectedGroundMat;
+        if (rightTile != null) rightTile.GetComponent<Renderer>().material = selectedGroundMat;
+        if (topTile != null) topTile.GetComponent<Renderer>().material = selectedGroundMat;
+        if (bottomTile != null) bottomTile.GetComponent<Renderer>().material = selectedGroundMat;
     }
     void MillPlacementExit()
     {
-        GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-        if (leftTile != null) leftTile.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-        if (rightTile != null) rightTile.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-        if (topTile != null) topTile.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-        if (bottomTile != null) bottomTile.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+        DestroyPreviews();
+        GetComponent<Renderer>().material = groundMat;
+        if (leftTile != null) leftTile.GetComponent<Renderer>().material = groundMat;
+        if (rightTile != null) rightTile.GetComponent<Renderer>().material = groundMat;
+        if (topTile != null) topTile.GetComponent<Renderer>().material = groundMat;
+        if (bottomTile != null) bottomTile.GetComponent<Renderer>().material = groundMat;
     }
     void FarmPlacementEnter()
     {
-        GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
-        if (topTile != null) topTile.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
-        if (bottomTile != null) bottomTile.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
-        if (leftTile != null) leftTile.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
-        if (topLeftTile != null) topLeftTile.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
-        if (bottomLeftTile != null) bottomLeftTile.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
+        createBuilding.PreviewFarm(this.transform.position);
+        GetComponent<Renderer>().material = selectedGroundMat;
+        if (topTile != null) topTile.GetComponent<Renderer>().material = selectedGroundMat;
+        if (bottomTile != null) bottomTile.GetComponent<Renderer>().material = selectedGroundMat;
+        if (leftTile != null) leftTile.GetComponent<Renderer>().material = selectedGroundMat;
+        if (topLeftTile != null) topLeftTile.GetComponent<Renderer>().material = selectedGroundMat;
+        if (bottomLeftTile != null) bottomLeftTile.GetComponent<Renderer>().material = selectedGroundMat;
 
     }
     void FarmPlacementExit()
     {
-        GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-        if (topTile != null) topTile.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-        if (bottomTile != null) bottomTile.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-        if (leftTile != null) leftTile.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-        if (topLeftTile != null) topLeftTile.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-        if (bottomLeftTile != null) bottomLeftTile.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+        DestroyPreviews();
+        GetComponent<Renderer>().material = groundMat;
+        if (topTile != null) topTile.GetComponent<Renderer>().material = groundMat;
+        if (bottomTile != null) bottomTile.GetComponent<Renderer>().material = groundMat;
+        if (leftTile != null) leftTile.GetComponent<Renderer>().material = groundMat;
+        if (topLeftTile != null) topLeftTile.GetComponent<Renderer>().material = groundMat;
+        if (bottomLeftTile != null) bottomLeftTile.GetComponent<Renderer>().material = groundMat;
+    }
+    void DestroyPreviews()
+    {
+        GameObject[] previews = GameObject.FindGameObjectsWithTag("Preview");
+        foreach (GameObject preview in previews) GameObject.Destroy(preview);
+
     }
 }
