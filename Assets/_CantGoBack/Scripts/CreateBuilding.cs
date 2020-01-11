@@ -11,7 +11,7 @@ public class CreateBuilding : MonoBehaviour
     public void PreviewFarm(Vector3 position)
     {
 
-        previewModel = Instantiate(farmModel, position, Quaternion.identity);
+        previewModel = Instantiate(farmModel, new Vector3(position.x - 0.5f, position.y + 0.1f, position.z + 0.38f), Quaternion.identity);
         previewModel.tag = "Preview";
 
 
@@ -19,7 +19,7 @@ public class CreateBuilding : MonoBehaviour
     public void PreviewMill(Vector3 position)
     {
 
-        previewModel = Instantiate(millModel, position, Quaternion.identity);
+        previewModel = Instantiate(millModel, new Vector3(position.x + 0.313f, position.y + 0.1f, position.z - 0.25f), Quaternion.identity);
         previewModel.tag = "Preview";
 
 
