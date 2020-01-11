@@ -23,6 +23,8 @@ public class GridHighlight : MonoBehaviour
     public GameObject bottomRightTile;
     public Material groundMat;
     public Material selectedGroundMat;
+    public Material builtOn;
+    public bool used = false;
 
 
     string currentBuilding = "";
@@ -59,6 +61,10 @@ public class GridHighlight : MonoBehaviour
             MillPlacementExit();
             FarmPlacementExit();
         }
+        if (used)
+        {
+            GetComponent<Renderer>().material = builtOn;
+        }
     }
     void OnMouseOver()
     {
@@ -86,12 +92,23 @@ public class GridHighlight : MonoBehaviour
     }
     void MillPlacementEnter()
     {
-        createBuilding.PreviewMill(this.transform.position);
-        GetComponent<Renderer>().material = selectedGroundMat;
-        if (leftTile != null) leftTile.GetComponent<Renderer>().material = selectedGroundMat;
-        if (rightTile != null) rightTile.GetComponent<Renderer>().material = selectedGroundMat;
-        if (topTile != null) topTile.GetComponent<Renderer>().material = selectedGroundMat;
-        if (bottomTile != null) bottomTile.GetComponent<Renderer>().material = selectedGroundMat;
+        // print(!used || !leftTile.GetComponent<GridHighlight>().used || !rightTile.GetComponent<GridHighlight>().used || !topTile.GetComponent<GridHighlight>().used || !bottomTile.GetComponent<GridHighlight>().used);
+        if (!leftTile.GetComponent<GridHighlight>().used && !rightTile.GetComponent<GridHighlight>().used && !topTile.GetComponent<GridHighlight>().used && !bottomTile.GetComponent<GridHighlight>().used)
+        {
+            List<GameObject> tiles = new List<GameObject>();
+            tiles.Add(this.gameObject);
+            tiles.Add(leftTile);
+            tiles.Add(rightTile);
+            tiles.Add(topTile);
+            tiles.Add(bottomTile);
+            createBuilding.PreviewMill(this.transform.position, tiles);
+            GetComponent<Renderer>().material = selectedGroundMat;
+            if (leftTile != null) leftTile.GetComponent<Renderer>().material = selectedGroundMat;
+            if (rightTile != null) rightTile.GetComponent<Renderer>().material = selectedGroundMat;
+            if (topTile != null) topTile.GetComponent<Renderer>().material = selectedGroundMat;
+            if (bottomTile != null) bottomTile.GetComponent<Renderer>().material = selectedGroundMat;
+        }
+        else print("cant place");
     }
     void MillPlacementExit()
     {
@@ -101,17 +118,28 @@ public class GridHighlight : MonoBehaviour
         if (rightTile != null) rightTile.GetComponent<Renderer>().material = groundMat;
         if (topTile != null) topTile.GetComponent<Renderer>().material = groundMat;
         if (bottomTile != null) bottomTile.GetComponent<Renderer>().material = groundMat;
+
+
     }
     void FarmPlacementEnter()
     {
-        createBuilding.PreviewFarm(this.transform.position);
-        GetComponent<Renderer>().material = selectedGroundMat;
-        if (topTile != null) topTile.GetComponent<Renderer>().material = selectedGroundMat;
-        if (bottomTile != null) bottomTile.GetComponent<Renderer>().material = selectedGroundMat;
-        if (leftTile != null) leftTile.GetComponent<Renderer>().material = selectedGroundMat;
-        if (topLeftTile != null) topLeftTile.GetComponent<Renderer>().material = selectedGroundMat;
-        if (bottomLeftTile != null) bottomLeftTile.GetComponent<Renderer>().material = selectedGroundMat;
-
+        if (!topTile.GetComponent<GridHighlight>().used && !bottomTile.GetComponent<GridHighlight>().used && !leftTile.GetComponent<GridHighlight>().used && !topLeftTile.GetComponent<GridHighlight>().used && !bottomLeftTile.GetComponent<GridHighlight>().used)
+        {
+            List<GameObject> tiles = new List<GameObject>();
+            tiles.Add(this.gameObject);
+            tiles.Add(topTile);
+            tiles.Add(bottomTile);
+            tiles.Add(leftTile);
+            tiles.Add(topLeftTile);
+            tiles.Add(bottomLeftTile);
+            createBuilding.PreviewFarm(this.transform.position, tiles);
+            GetComponent<Renderer>().material = selectedGroundMat;
+            if (topTile != null) topTile.GetComponent<Renderer>().material = selectedGroundMat;
+            if (bottomTile != null) bottomTile.GetComponent<Renderer>().material = selectedGroundMat;
+            if (leftTile != null) leftTile.GetComponent<Renderer>().material = selectedGroundMat;
+            if (topLeftTile != null) topLeftTile.GetComponent<Renderer>().material = selectedGroundMat;
+            if (bottomLeftTile != null) bottomLeftTile.GetComponent<Renderer>().material = selectedGroundMat;
+        }
     }
     void FarmPlacementExit()
     {
