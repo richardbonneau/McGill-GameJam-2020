@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
 
     string[] buildingTypes = new string[2];
-    public string currentBuilding = "Farm";
+    public string currentBuilding;
     public GameObject currentBuildingUIGameObject;
     TextMeshProUGUI currentBuildingUI;
     string nextBuilding = "Farm";
@@ -18,6 +18,9 @@ public class GameManager : MonoBehaviour
 
     public GameObject scoreUIGameObject;
     TextMeshProUGUI scoreUI;
+    public GameObject finalScoreUIGameObject;
+    TextMeshProUGUI finalScoreUI;
+    public GameObject loseScreen;
     float waitTimeUntilNextBuilding = 2f;
     float elapsedTime = 0f;
     public int score = 0;
@@ -27,9 +30,12 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        currentBuilding = "Farm";
         currentBuildingUI = currentBuildingUIGameObject.GetComponent<TextMeshProUGUI>();
         nextBuildingUI = nextBuildingUIGameObject.GetComponent<TextMeshProUGUI>();
         scoreUI = scoreUIGameObject.GetComponent<TextMeshProUGUI>();
+        finalScoreUI = finalScoreUIGameObject.GetComponent<TextMeshProUGUI>();
+
 
         buildingTypes[0] = "Farm";
         buildingTypes[1] = "Mill";
@@ -37,18 +43,25 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        scoreUI.text = score.ToString();
+        string stringifiedScore = score.ToString();
+        scoreUI.text = stringifiedScore;
+        finalScoreUI.text = stringifiedScore;
     }
 
     IEnumerator cycleBuildings(float time)
     {
         while (true)
         {
-            print(elapsedTime);
             elapsedTime += 0.05f;
             slider.value = elapsedTime / time;
             if (slider.value == 1f)
             {
+                if (!buildingPlaced)
+                {
+                    loseScreen.SetActive(true);
+                    buildingPlaced = true;
+                    yield break;
+                }
                 buildingPlaced = false;
                 elapsedTime = 0f;
                 string building = nextBuilding;

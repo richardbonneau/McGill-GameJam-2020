@@ -20,24 +20,22 @@ public class CreateBuilding : MonoBehaviour
 
     public void PreviewFarm(Vector3 position, List<GameObject> tiles)
     {
-        if (!gameManager.buildingPlaced)
-        {
-            selectedTiles = tiles;
-            currentBuilding = "Farm";
-            previewModel = Instantiate(farmModel, new Vector3(position.x - 0.5f, position.y + 0.11f, position.z + 0.38f), Quaternion.identity);
-            previewModel.tag = "Preview";
-        }
+
+        selectedTiles = tiles;
+        currentBuilding = "Farm";
+        previewModel = Instantiate(farmModel, new Vector3(position.x - 0.5f, position.y + 0.11f, position.z + 0.38f), Quaternion.identity);
+        previewModel.tag = "Preview";
+
 
     }
     public void PreviewMill(Vector3 position, List<GameObject> tiles)
     {
-        if (!gameManager.buildingPlaced)
-        {
-            selectedTiles = tiles;
-            currentBuilding = "Mill";
-            previewModel = Instantiate(millModel, new Vector3(position.x + 0.313f, position.y + 0.11f, position.z - 0.25f), Quaternion.identity);
-            previewModel.tag = "Preview";
-        }
+
+        selectedTiles = tiles;
+        currentBuilding = "Mill";
+        previewModel = Instantiate(millModel, new Vector3(position.x + 0.313f, position.y + 0.11f, position.z - 0.25f), Quaternion.identity);
+        previewModel.tag = "Preview";
+
     }
     void PlaceBuilding(GameObject model, int points)
     {
