@@ -8,6 +8,7 @@ public class SelectorCube : MonoBehaviour
     void OnTriggerEnter(Collider col)
     {
 
-        tile = col.gameObject;
+        if (col.gameObject.tag != "Selector") tile = col.gameObject;
+
     }
 }
