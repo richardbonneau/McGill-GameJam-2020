@@ -32,12 +32,14 @@ public class CreateBuilding : MonoBehaviour
         selectedTiles = tiles;
         currentBuilding = "Mill";
         previewModel = Instantiate(millModel, new Vector3(position.x + 0.313f, position.y + 0.11f, position.z - 0.25f), Quaternion.identity);
-        // previewSynergyZone = Instantiate(synergyZone, previewModel.transform.position, Quaternion.identity);
+
         previewModel.tag = "Preview";
-        // previewSynergyZone.tag = "Preview";
+
     }
     void PlaceBuilding(GameObject model, int points)
     {
+        GameObject synergyZone = GameObject.FindWithTag("SynergyZone");
+        if (synergyZone != null) synergyZone.SetActive(false);
         Instantiate(model, previewModel.transform.position, Quaternion.identity);
         foreach (GameObject tile in selectedTiles) tile.GetComponent<GridHighlight>().used = true;
         gameManager.buildingPlaced = true;
