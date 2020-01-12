@@ -43,19 +43,16 @@ public class CreateBuilding : MonoBehaviour
     }
     void PlaceBuilding(GameObject model, int points)
     {
-        Instantiate(model, previewModel.transform.position, Quaternion.identity);
+        GameObject newModel = Instantiate(model, previewModel.transform.position, Quaternion.identity);
         foreach (GameObject tile in selectedTiles) tile.GetComponent<GridHighlight>().used = true;
         gameManager.buildingPlaced = true;
+        newModel.GetComponent<BoxCollider>().enabled = true;
+        foreach (GameObject building in synergyZoneScript.collidingBuildings) if (currentBuilding == "Mill" && building.tag == "Farm") extraPoints += 500;
 
-        foreach (GameObject building in synergyZoneScript.collidingBuildings)
-        {
-            print(currentBuilding + " " + building.tag);
-            if (currentBuilding == "Mill" && building.tag == "Farm") extraPoints += 500;
-            print("XTRA PONTS " + extraPoints);
-        }
-
+        print(points + " " + extraPoints);
         gameManager.score += (points + extraPoints);
         extraPoints = 0;
+        synergyZoneScript.collidingBuildings = new List<GameObject>();
     }
     void Update()
     {
