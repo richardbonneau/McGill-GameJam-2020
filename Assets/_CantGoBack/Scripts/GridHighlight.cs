@@ -111,7 +111,7 @@ public class GridHighlight : MonoBehaviour
                 if (topTile != null) topTile.GetComponent<Renderer>().material = selectedGroundMat;
                 if (bottomTile != null) bottomTile.GetComponent<Renderer>().material = selectedGroundMat;
             }
-            else print("cant place");
+
         }
     }
     void MillPlacementExit()
