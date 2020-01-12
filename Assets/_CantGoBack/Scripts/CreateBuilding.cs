@@ -51,6 +51,7 @@ public class CreateBuilding : MonoBehaviour
 
         print(points + " " + extraPoints);
         gameManager.score += (points + extraPoints);
+        previewSynergyZone.transform.position = new Vector3(1000f, 1000f, 1000f);
         extraPoints = 0;
         synergyZoneScript.collidingBuildings = new List<GameObject>();
     }
