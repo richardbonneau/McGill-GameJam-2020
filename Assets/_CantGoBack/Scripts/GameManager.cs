@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
 
-    string[] buildingTypes = new string[2];
+    string[] buildingTypes = new string[4];
     public string currentBuilding;
     public GameObject currentBuildingUIGameObject;
     TextMeshProUGUI currentBuildingUI;
@@ -39,6 +39,9 @@ public class GameManager : MonoBehaviour
 
         buildingTypes[0] = "Farm";
         buildingTypes[1] = "Mill";
+        buildingTypes[2] = "Market";
+        buildingTypes[3] = "House";
+        print(buildingTypes);
         StartCoroutine(cycleBuildings(waitTimeUntilNextBuilding));
     }
     void Update()
@@ -65,7 +68,7 @@ public class GameManager : MonoBehaviour
                 buildingPlaced = false;
                 elapsedTime = 0f;
                 string building = nextBuilding;
-                nextBuilding = buildingTypes[Random.Range(0, 2)];
+                nextBuilding = buildingTypes[Random.Range(0, 4)];
                 currentBuilding = building;
                 currentBuildingUI.text = building;
                 nextBuildingUI.text = nextBuilding;

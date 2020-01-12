@@ -77,6 +77,12 @@ public class GridHighlight : MonoBehaviour
             case "Farm":
                 FarmPlacementEnter();
                 break;
+            case "Market":
+                MarketPlacementEnter();
+                break;
+            case "House":
+                HousePlacementEnter();
+                break;
         }
     }
     void OnMouseExit()
@@ -88,6 +94,12 @@ public class GridHighlight : MonoBehaviour
                 break;
             case "Farm":
                 FarmPlacementExit();
+                break;
+            case "Market":
+                MarketPlacementExit();
+                break;
+            case "House":
+                HousePlacementExit();
                 break;
         }
     }
@@ -157,6 +169,66 @@ public class GridHighlight : MonoBehaviour
         if (leftTile != null) leftTile.GetComponent<Renderer>().material = groundMat;
         if (topLeftTile != null) topLeftTile.GetComponent<Renderer>().material = groundMat;
         if (bottomLeftTile != null) bottomLeftTile.GetComponent<Renderer>().material = groundMat;
+    }
+    void MarketPlacementEnter()
+    {
+        if (!gameManager.buildingPlaced)
+        {
+            if (!leftTile.GetComponent<GridHighlight>().used && !bottomLeftTile.GetComponent<GridHighlight>().used && !bottomTile.GetComponent<GridHighlight>().used && !bottomRightTile.GetComponent<GridHighlight>().used && !rightTile.GetComponent<GridHighlight>().used)
+            {
+                List<GameObject> tiles = new List<GameObject>();
+                tiles.Add(this.gameObject);
+
+
+                tiles.Add(leftTile);
+                tiles.Add(bottomLeftTile);
+                tiles.Add(bottomTile);
+                tiles.Add(bottomRightTile);
+                tiles.Add(rightTile);
+
+                createBuilding.PreviewMarket(this.transform.position, tiles);
+                GetComponent<Renderer>().material = selectedGroundMat;
+                if (leftTile != null) leftTile.GetComponent<Renderer>().material = selectedGroundMat;
+                if (bottomLeftTile != null) bottomLeftTile.GetComponent<Renderer>().material = selectedGroundMat;
+                if (bottomTile != null) bottomTile.GetComponent<Renderer>().material = selectedGroundMat;
+                if (bottomRightTile != null) bottomRightTile.GetComponent<Renderer>().material = selectedGroundMat;
+                if (rightTile != null) rightTile.GetComponent<Renderer>().material = selectedGroundMat;
+            }
+        }
+    }
+    void MarketPlacementExit()
+    {
+        DestroyPreviews();
+        GetComponent<Renderer>().material = groundMat;
+        if (leftTile != null) leftTile.GetComponent<Renderer>().material = groundMat;
+        if (bottomLeftTile != null) bottomLeftTile.GetComponent<Renderer>().material = groundMat;
+        if (bottomTile != null) bottomTile.GetComponent<Renderer>().material = groundMat;
+        if (bottomRightTile != null) bottomRightTile.GetComponent<Renderer>().material = groundMat;
+        if (rightTile != null) rightTile.GetComponent<Renderer>().material = groundMat;
+    }
+    void HousePlacementEnter()
+    {
+        if (!gameManager.buildingPlaced)
+        {
+            if (!topTile.GetComponent<GridHighlight>().used && !bottomTile.GetComponent<GridHighlight>().used)
+            {
+                List<GameObject> tiles = new List<GameObject>();
+                tiles.Add(this.gameObject);
+                tiles.Add(topTile);
+                tiles.Add(bottomTile);
+                createBuilding.PreviewHouse(this.transform.position, tiles);
+                GetComponent<Renderer>().material = selectedGroundMat;
+                if (topTile != null) topTile.GetComponent<Renderer>().material = selectedGroundMat;
+                if (bottomTile != null) bottomTile.GetComponent<Renderer>().material = selectedGroundMat;
+            }
+        }
+    }
+    void HousePlacementExit()
+    {
+        DestroyPreviews();
+        GetComponent<Renderer>().material = groundMat;
+        if (topTile != null) topTile.GetComponent<Renderer>().material = groundMat;
+        if (bottomTile != null) bottomTile.GetComponent<Renderer>().material = groundMat;
     }
     void DestroyPreviews()
     {
