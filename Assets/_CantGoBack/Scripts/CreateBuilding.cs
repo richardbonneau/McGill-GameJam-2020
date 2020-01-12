@@ -62,6 +62,15 @@ public class CreateBuilding : MonoBehaviour
         // previewSynergyZone.transform.position = new Vector3(previewModel.transform.position.x, 0.117f, previewModel.transform.position.z);
         previewModel.tag = "Preview";
     }
+    public void PreviewTrash(Vector3 position, List<GameObject> tiles)
+    {
+        selectedTiles = tiles;
+        currentBuilding = "Trash";
+        previewModel = Instantiate(trashModel, new Vector3(position.x - 18f, position.y + 0.1f, position.z + 168), Quaternion.identity);
+
+        // previewSynergyZone.transform.position = new Vector3(previewModel.transform.position.x, 0.117f, previewModel.transform.position.z);
+        previewModel.tag = "Preview";
+    }
     void PlaceBuilding(GameObject model, int points)
     {
         GameObject newModel = Instantiate(model, previewModel.transform.position, Quaternion.identity);
@@ -85,6 +94,7 @@ public class CreateBuilding : MonoBehaviour
             else if (currentBuilding == "House") PlaceBuilding(houseModel, 1200);
             else if (currentBuilding == "Mill") PlaceBuilding(millModel, 1500);
             else if (currentBuilding == "Market") PlaceBuilding(marketModel, 2400);
+            else if (currentBuilding == "Trash") PlaceBuilding(trashModel, 0);
         }
     }
 }

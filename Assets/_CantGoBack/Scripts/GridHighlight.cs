@@ -83,6 +83,9 @@ public class GridHighlight : MonoBehaviour
             case "House":
                 HousePlacementEnter();
                 break;
+            case "Trash":
+                TrashPlacementEnter();
+                break;
         }
     }
     void OnMouseExit()
@@ -100,6 +103,9 @@ public class GridHighlight : MonoBehaviour
                 break;
             case "House":
                 HousePlacementExit();
+                break;
+            case "Trash":
+                TrashPlacementExit();
                 break;
         }
     }
@@ -229,6 +235,54 @@ public class GridHighlight : MonoBehaviour
         GetComponent<Renderer>().material = groundMat;
         if (topTile != null) topTile.GetComponent<Renderer>().material = groundMat;
         if (bottomTile != null) bottomTile.GetComponent<Renderer>().material = groundMat;
+    }
+    void TrashPlacementEnter()
+    {
+        if (!gameManager.buildingPlaced)
+        {
+            if (!topTile.GetComponent<GridHighlight>().used &&
+             !topLeftTile.GetComponent<GridHighlight>().used &&
+             !topRightTile.GetComponent<GridHighlight>().used &&
+             !bottomRightTile.GetComponent<GridHighlight>().used &&
+             !bottomTile.GetComponent<GridHighlight>().used &&
+             !bottomLeftTile.GetComponent<GridHighlight>().used &&
+             !leftTile.GetComponent<GridHighlight>().used &&
+             !rightTile.GetComponent<GridHighlight>().used)
+            {
+                List<GameObject> tiles = new List<GameObject>();
+                tiles.Add(this.gameObject);
+                tiles.Add(topTile);
+                tiles.Add(topLeftTile);
+                tiles.Add(topRightTile);
+                tiles.Add(rightTile);
+                tiles.Add(bottomRightTile);
+                tiles.Add(bottomTile);
+                tiles.Add(bottomLeftTile);
+                tiles.Add(leftTile);
+                createBuilding.PreviewTrash(this.transform.position, tiles);
+                GetComponent<Renderer>().material = selectedGroundMat;
+                if (topTile != null) topTile.GetComponent<Renderer>().material = selectedGroundMat;
+                if (topLeftTile != null) topLeftTile.GetComponent<Renderer>().material = selectedGroundMat;
+                if (topRightTile != null) topRightTile.GetComponent<Renderer>().material = selectedGroundMat;
+                if (rightTile != null) rightTile.GetComponent<Renderer>().material = selectedGroundMat;
+                if (bottomRightTile != null) bottomRightTile.GetComponent<Renderer>().material = selectedGroundMat;
+                if (bottomTile != null) bottomTile.GetComponent<Renderer>().material = selectedGroundMat;
+                if (bottomLeftTile != null) bottomLeftTile.GetComponent<Renderer>().material = selectedGroundMat;
+                if (leftTile != null) leftTile.GetComponent<Renderer>().material = selectedGroundMat;
+            }
+        }
+    }
+    void TrashPlacementExit()
+    {
+        DestroyPreviews();
+        GetComponent<Renderer>().material = groundMat;
+        if (topLeftTile != null) topLeftTile.GetComponent<Renderer>().material = groundMat;
+        if (topRightTile != null) topRightTile.GetComponent<Renderer>().material = groundMat;
+        if (rightTile != null) rightTile.GetComponent<Renderer>().material = selectedGroundMat;
+        if (bottomRightTile != null) bottomRightTile.GetComponent<Renderer>().material = selectedGroundMat;
+        if (bottomTile != null) bottomTile.GetComponent<Renderer>().material = selectedGroundMat;
+        if (bottomLeftTile != null) bottomLeftTile.GetComponent<Renderer>().material = selectedGroundMat;
+        if (leftTile != null) leftTile.GetComponent<Renderer>().material = selectedGroundMat;
     }
     void DestroyPreviews()
     {
