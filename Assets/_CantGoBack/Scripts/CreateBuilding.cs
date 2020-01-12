@@ -13,12 +13,14 @@ public class CreateBuilding : MonoBehaviour
     string currentBuilding;
     // Start is called before the first frame update
     public List<GameObject> selectedTiles = new List<GameObject>();
-
+    SynergyZone synergyZoneScript;
+    int extraPoints = 0;
     void Start()
     {
         GameObject gameManagerObject = GameObject.FindWithTag("GameManager");
         gameManager = gameManagerObject.GetComponent<GameManager>();
         previewSynergyZone = Instantiate(synergyZone, new Vector3(1000f, 1000f, 1000f), Quaternion.identity);
+        synergyZoneScript = previewSynergyZone.GetComponent<SynergyZone>();
     }
 
     public void PreviewFarm(Vector3 position, List<GameObject> tiles)
@@ -34,7 +36,7 @@ public class CreateBuilding : MonoBehaviour
         selectedTiles = tiles;
         currentBuilding = "Mill";
         previewModel = Instantiate(millModel, new Vector3(position.x + 0.313f, position.y + 0.11f, position.z - 0.25f), Quaternion.identity);
-        previewSynergyZone.transform.position = previewModel.transform.position;
+        previewSynergyZone.transform.position = new Vector3(previewModel.transform.position.x, previewModel.transform.position.y + 0.3f, previewModel.transform.position.z);
 
         previewModel.tag = "Preview";
         // previewSynergyZone.tag = "Preview";
@@ -44,7 +46,16 @@ public class CreateBuilding : MonoBehaviour
         Instantiate(model, previewModel.transform.position, Quaternion.identity);
         foreach (GameObject tile in selectedTiles) tile.GetComponent<GridHighlight>().used = true;
         gameManager.buildingPlaced = true;
-        gameManager.score += points;
+
+        foreach (GameObject building in synergyZoneScript.collidingBuildings)
+        {
+            print(currentBuilding + " " + building.tag);
+            if (currentBuilding == "Mill" && building.tag == "Farm") extraPoints += 500;
+            print("XTRA PONTS " + extraPoints);
+        }
+
+        gameManager.score += (points + extraPoints);
+        extraPoints = 0;
     }
     void Update()
     {

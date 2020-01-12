@@ -7,6 +7,7 @@ public class SynergyZone : MonoBehaviour
     public List<GameObject> collidingBuildings = new List<GameObject>();
     public Material defaultMat;
     Renderer renderer;
+
     void Start()
     {
         renderer = GetComponent<Renderer>();
@@ -18,9 +19,9 @@ public class SynergyZone : MonoBehaviour
     void OnTriggerEnter(Collider col)
     {
         GameObject collidedGameObj = col.gameObject;
+        print("collidedGameObj " + collidedGameObj);
         if (collidedGameObj.tag == "Farm")
         {
-            print(collidedGameObj);
             collidingBuildings.Add(collidedGameObj);
         }
 
